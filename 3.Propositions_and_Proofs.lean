@@ -132,7 +132,7 @@ show q, from and.right h
 
 -- Classical logic
 -- Prove double negation
--- To use `em` we can just use it with classical.em
+-- To use `em` we can invoke it using classical namespace like so: `classical.em`
 -- or import the classical module with 'open classical' and just use 'em' directly,
 -- no need to prefix it with namespace name
 theorem dne {p : Prop} (h : ¬¬p) : p :=
@@ -147,5 +147,17 @@ or.elim (classical.em p)
   (assume hp : p, show p, from hp)
   (assume hnp : ¬p, show p, from absurd hnp h)
 
+-- Proof by cases
+example (h : ¬¬p) : p :=
+classical.by_cases
+(assume h1 : p, h1)
+(assume h1 : ¬p, absurd h1 h)
 
+-- Proof by contradiction
+example (h : ¬¬p) : p :=
+classical.by_contradiction
+(assume h1 : ¬p, absurd h1 h)
 
+example (h : ¬¬p) : p :=
+classical.by_contradiction
+(assume h1 : ¬p, show false, from h h1)
