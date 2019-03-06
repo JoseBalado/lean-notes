@@ -170,3 +170,15 @@ or.elim (classical.em p)
           assume hq : q,
           h ⟨hp, hq⟩))
 (assume hnp : ¬p, show ¬p ∨ ¬q, from or.inl hnp)
+
+-- Prove p ∨ q ↔ q ∨ p
+example : p ∨ q ↔ q ∨ p :=
+iff.intro
+(assume h : p ∨ q, show q ∨ p,
+  from or.elim h
+    (assume hp : p, show q ∨ p, from or.intro_right q hp)
+    (assume hq : q, show q ∨ p, from or.intro_left p hq))
+(assume h : q ∨ p, show p ∨ q,
+  from or.elim h
+    (assume hq : q, show p ∨ q, from or.intro_right p hq)
+    (assume hp : p, show p ∨ q, from or.intro_left q hp))
