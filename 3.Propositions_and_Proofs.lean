@@ -161,3 +161,12 @@ classical.by_contradiction
 example (h : ¬¬p) : p :=
 classical.by_contradiction
 (assume h1 : ¬p, show false, from h h1)
+
+-- Prove ¬(p ∧ q) →  ¬p ∨ ¬q
+example (h : ¬(p ∧ q)) : ¬p ∨ ¬q :=
+or.elim (classical.em p)
+(assume hp : p,
+  or.inr (show ¬q, from
+          assume hq : q,
+          h ⟨hp, hq⟩))
+(assume hnp : ¬p, show ¬p ∨ ¬q, from or.inl hnp)
