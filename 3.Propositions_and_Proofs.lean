@@ -141,7 +141,7 @@ or.elim (classical.em p)
   (assume hnp : ¬p, show p, from absurd hnp h)
 
 -- Prove double negation, p is defined at the top of the file as p : Prop,
--- so no need to add {p : Prop}  to the premises
+-- so no need to add {p : Prop} to the premises
 example (h : ¬¬p) : p :=
 or.elim (classical.em p)
   (assume hp : p, show p, from hp)
@@ -162,7 +162,7 @@ example (h : ¬¬p) : p :=
 classical.by_contradiction
 (assume h1 : ¬p, show false, from h h1)
 
--- Prove ¬(p ∧ q) →  ¬p ∨ ¬q
+-- Prove ¬(p ∧ q) → ¬p ∨ ¬q
 example (h : ¬(p ∧ q)) : ¬p ∨ ¬q :=
 or.elim (classical.em p)
 (assume hp : p,
@@ -170,6 +170,11 @@ or.elim (classical.em p)
           assume hq : q,
           h ⟨hp, hq⟩))
 (assume hnp : ¬p, show ¬p ∨ ¬q, from or.inl hnp)
+
+
+-- 3.6. Examples of Propositional Validities
+
+-- commutativity of ∧ and ∨
 
 -- Prove p ∨ q ↔ q ∨ p
 example : p ∨ q ↔ q ∨ p :=
@@ -182,3 +187,17 @@ iff.intro
   from or.elim h
     (assume hq : q, show p ∨ q, from or.intro_right p hq)
     (assume hp : p, show p ∨ q, from or.intro_left q hp))
+
+-- distributivity
+
+-- Prove p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r)
+example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
+
+example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
+iff.intro
+(assume h : p ∧ (q ∨ r), show (p ∧ q) ∨ (p ∧ r),
+  from sorry)
+(assume h :(p ∧ q) ∨ (p ∧ r) , show p ∧ (q ∨ r),
+  from sorry)
+
+example (h : p ∧ (q ∨ r)) : (p ∧ q) ∨ (p ∧ r) := sorry
