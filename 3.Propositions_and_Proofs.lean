@@ -191,13 +191,18 @@ iff.intro
 -- distributivity
 
 -- Prove p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r)
-example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
-
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
 iff.intro
-(assume h : p ∧ (q ∨ r), show (p ∧ q) ∨ (p ∧ r),
-  from sorry)
-(assume h :(p ∧ q) ∨ (p ∧ r) , show p ∧ (q ∨ r),
-  from sorry)
-
-example (h : p ∧ (q ∨ r)) : (p ∧ q) ∨ (p ∧ r) := sorry
+  (assume h : p ∧ (q ∨ r),
+    have hp : p, from h.left,
+    or.elim (h.right)
+      (assume hq : q,
+        show (p ∧ q) ∨ (p ∧ r), from or.inl ⟨hp, hq⟩)
+      (assume hr : r,
+        show (p ∧ q) ∨ (p ∧ r), from or.inr ⟨hp, hr⟩))
+  (assume h : (p ∧ q) ∨ (p ∧ r),
+   or.elim h
+   (assume hpq : (p ∧ q),
+     show p ∧ (q ∨ r), from and.intro hpq.left (or.inl hpq.right))
+   (assume hpr : (p ∧ r),
+      show p ∧ (q ∨ r), from and.intro hpr.left (or.inr hpr.right)))
