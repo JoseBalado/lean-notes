@@ -188,8 +188,11 @@ iff.intro
     (assume hq : q, show p ∨ q, from or.intro_right p hq)
     (assume hp : p, show p ∨ q, from or.intro_left q hp))
 
--- distributivity
+-- associativity of ∧ and ∨ --
+example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
+example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
+-- distributivity --
 -- Prove p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r)
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
 iff.intro
@@ -206,3 +209,21 @@ iff.intro
      show p ∧ (q ∨ r), from and.intro hpq.left (or.inl hpq.right))
    (assume hpr : (p ∧ r),
       show p ∧ (q ∨ r), from and.intro hpr.left (or.inr hpr.right)))
+
+-- Prove p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
+example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := 
+iff.intro
+  (assume h: p ∨ (q ∧ r),
+    show (p ∨ q) ∧ (p ∨ r), 
+    from or.elim h
+    (assume hp: p, show (p ∨ q) ∧ (p ∨ r), from ⟨or.inl hp, or.inl hp⟩)
+    (assume hqr: (q ∧ r), show (p ∨ q) ∧ (p ∨ r), from ⟨or.inr hqr.left, or.inr hqr.right⟩))
+  (assume h: (p ∨ q) ∧ (p ∨ r),
+   show p ∨ (q ∧ r), 
+   from  or.elim (h.left)
+    (assume hp : p, show p ∨ (q ∧ r), from or.inl hp)
+    (assume hq : q, show p ∨ (q ∧ r), from or.elim h.right
+      (assume hp : p, show p ∨ (q ∧ r), from or.inl hp)
+      (assume hr : r, show p ∨ (q ∧ r), from or.inr ⟨hq, hr⟩)
+   ))
+
