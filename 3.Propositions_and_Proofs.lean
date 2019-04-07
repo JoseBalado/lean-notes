@@ -189,7 +189,15 @@ iff.intro
     (assume hp : p, show p ∨ q, from or.intro_left q hp))
 
 -- associativity of ∧ and ∨ --
-example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
+-- Prove (p ∧ q) ∧ r ↔ p ∧ (q ∧ r)
+example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
+iff.intro
+  (assume hpqr : (p ∧ q) ∧ r, show p ∧ (q ∧ r), from
+    ⟨hpqr.left.left, ⟨hpqr.left.right, hpqr.right⟩⟩)
+  (assume hpqr : p ∧ (q ∧ r), show (p ∧ q) ∧ r, from
+    ⟨⟨hpqr.left, hpqr.right.left⟩, hpqr.right.right⟩)
+
+-- Prove (p ∨ q) ∨ r ↔ p ∨ (q ∨ r)
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
 -- distributivity --
