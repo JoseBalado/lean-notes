@@ -198,7 +198,21 @@ iff.intro
     ⟨⟨hpqr.left, hpqr.right.left⟩, hpqr.right.right⟩)
 
 -- Prove (p ∨ q) ∨ r ↔ p ∨ (q ∨ r)
-example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
+example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
+iff.intro
+  (assume hpqr : (p ∨ q) ∨ r, show p ∨ (q ∨ r), from
+    or.elim hpqr
+      (assume hpq : p ∨ q, show p ∨ (q ∨ r), from
+        or.elim hpq
+        (assume hp : p, show p ∨ (q ∨ r), from or.inl hp)
+        (assume hq : q, show p ∨ (q ∨ r), from or.inr (or.inl hq)))
+      (assume hr : r, show p ∨ (q ∨ r), from or.inr (or.inr hr)))
+  (assume hpqr : p ∨ (q ∨ r), show (p ∨ q) ∨ r, from
+    or.elim hpqr
+    (assume hp : p, show (p ∨ q) ∨ r, from or.inl (or.inl hp))
+    (assume hqr : q ∨ r, show (p ∨ q) ∨ r, from or.elim hqr
+      (assume hq: q, show (p ∨ q) ∨ r, from or.inl (or.inr hq ))
+      (assume hr : r, show (p ∨ q) ∨ r, from or.inr hr)))
 
 -- distributivity --
 -- Prove p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r)
