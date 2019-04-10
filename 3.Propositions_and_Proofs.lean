@@ -249,3 +249,12 @@ iff.intro
       (assume hr : r, show p ∨ (q ∧ r), from or.inr ⟨hq, hr⟩)
    ))
 
+-- other properties
+example : (p → (q → r)) ↔ (p ∧ q → r) :=
+  iff.intro
+  (assume hpqr : p → (q → r), show p ∧ q → r, from
+    (assume hpq : p ∧ q,
+     have hp : p, from hpq.left,
+     have hq : q, from hpq.right,
+     show r, from (hpqr hp) hq))
+  (sorry)
