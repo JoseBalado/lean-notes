@@ -257,4 +257,6 @@ example : (p → (q → r)) ↔ (p ∧ q → r) :=
      have hp : p, from hpq.left,
      have hq : q, from hpq.right,
      show r, from (hpqr hp) hq))
-  (sorry)
+  (assume hpqr : (p ∧ q → r), show (p → (q → r)), from
+    (assume hp : p, show q → r, from
+      (assume hq, show r, from (hpqr ⟨ hp, hq ⟩))))
