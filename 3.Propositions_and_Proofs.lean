@@ -24,7 +24,7 @@ variables (h : p) (i : q)
 example (h : p ∧ q) : q ∧ p :=
 and.intro (and.elim_right h) (and.elim_left h)
 -- Lean allows us to use anonymous constructor notation ⟨arg1, arg2, ...⟩
--- in situations like these, when the relevant type is an inductive type and can be inferred from the context.
+-- In situations like these, when the relevant type is an inductive type and can be inferred from the context.
 -- In particular, we can often write ⟨hp, hq⟩ instead of and.intro hp hq:
 example (h : p ∧ q) : q ∧ p :=
 ⟨and.elim_right h, and.elim_left h⟩
@@ -66,7 +66,7 @@ or.elim h
 (assume hp : p, show q ∨ p, from or.intro_right q hp)
 (assume hq : q, show q ∨ p, from or.intro_left p hq)
 
--- modus tollens, deriving a contradiction from p to obtain false.
+-- Modus tollens, deriving a contradiction from p to obtain false.
 -- Everything follows from false, in this case ¬p
 example (hpq : p → q) (hnq : ¬q) : ¬p :=
 assume hp : p, show false, from  hnq (hpq hp)
@@ -188,7 +188,7 @@ iff.intro
     (assume hq : q, show p ∨ q, from or.intro_right p hq)
     (assume hp : p, show p ∨ q, from or.intro_left q hp))
 
--- associativity of ∧ and ∨ --
+-- Associativity of ∧ and ∨ --
 -- Prove (p ∧ q) ∧ r ↔ p ∧ (q ∧ r)
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
 iff.intro
@@ -214,7 +214,7 @@ iff.intro
       (assume hq: q, show (p ∨ q) ∨ r, from or.inl (or.inr hq ))
       (assume hr : r, show (p ∨ q) ∨ r, from or.inr hr)))
 
--- distributivity --
+-- Distributivity --
 -- Prove p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r)
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
 iff.intro
@@ -249,7 +249,8 @@ iff.intro
       (assume hr : r, show p ∨ (q ∧ r), from or.inr ⟨hq, hr⟩)
    ))
 
--- other properties
+-- Other properties
+-- Prove (p → (q → r)) ↔ (p ∧ q → r)
 example : (p → (q → r)) ↔ (p ∧ q → r) :=
   iff.intro
   (assume hpqr : p → (q → r), show p ∧ q → r, from
@@ -259,4 +260,15 @@ example : (p → (q → r)) ↔ (p ∧ q → r) :=
      show r, from (hpqr hp) hq))
   (assume hpqr : (p ∧ q → r), show (p → (q → r)), from
     (assume hp : p, show q → r, from
-      (assume hq, show r, from (hpqr ⟨ hp, hq ⟩))))
+      (assume hq, show r, from (hpqr ⟨hp, hq⟩))))
+
+ -- Prove (p ∧ q → r) → ((p → q) → r)
+example :  (p ∧ q → r) → ((p → q) → r) :=
+  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
+    (assume hpq : p → q, show r, from
+      (hpqr (show p ∧ q, from sorry))))
+
+example :  (p ∧ q → r) → ((p → q) → r) :=
+  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
+    (assume hpq : p → q, show r, from
+      (hpqr (show p ∧ q, from (hpq sorry))))
