@@ -101,12 +101,12 @@ false.elim (hnp (hqp (hnpq hnp)))
 -- Prove p ∧ q ↔ q ∧ p
 example : (p ∧ q) ↔ (q ∧ p) :=
 iff.intro
-(assume h : p ∧ q, 
- show q ∧ p,
- from and.intro (and.elim_right h) (and.elim_left h))
-(assume h : q ∧ p, 
- show p ∧ q,
- from and.intro (and.elim_right h) (and.elim_left h))
+  (assume h : p ∧ q,
+    show q ∧ p,
+    from and.intro (and.elim_right h) (and.elim_left h))
+  (assume h : q ∧ p,
+    show p ∧ q,
+    from and.intro (and.elim_right h) (and.elim_left h))
 
  -- Derive q ∧ p from p ∧ q
  example (h : p ∧ q) : (q ∧ p) :=
@@ -136,9 +136,9 @@ show q, from and.right h
 -- or import the classical module with 'open classical' and just use 'em' directly,
 -- no need to prefix it with namespace name
 theorem dne {p : Prop} (h : ¬¬p) : p :=
-or.elim (classical.em p)
-  (assume hp : p, show p, from hp)
-  (assume hnp : ¬p, show p, from absurd hnp h)
+  or.elim (classical.em p)
+    (assume hp : p, show p, from hp)
+    (assume hnp : ¬p, show p, from absurd hnp h)
 
 -- Prove double negation, p is defined at the top of the file as p : Prop,
 -- so no need to add {p : Prop} to the premises
@@ -267,8 +267,3 @@ example :  (p ∧ q → r) → ((p → q) → r) :=
   (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
     (assume hpq : p → q, show r, from
       (hpqr (show p ∧ q, from sorry))))
-
-example :  (p ∧ q → r) → ((p → q) → r) :=
-  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
-    (assume hpq : p → q, show r, from
-      (hpqr (show p ∧ q, from (hpq sorry))))
