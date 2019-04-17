@@ -279,5 +279,6 @@ example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
 example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := 
 iff.intro
 (assume hpqr : (p ∨ q) → r, show (p → r) ∧ (q → r), from 
-  ⟨sorry, sorry⟩) 
+  ⟨(assume hp : p, show r, from hpqr(or.inl hp)), 
+   (assume hq : q, show r, from hpqr(or.inr hq))⟩) 
 (sorry)
