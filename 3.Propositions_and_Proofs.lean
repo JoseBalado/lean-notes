@@ -281,4 +281,4 @@ iff.intro
 (assume hpqr : (p ∨ q) → r, show (p → r) ∧ (q → r), from 
   ⟨(assume hp : p, show r, from hpqr(or.inl hp)), 
    (assume hq : q, show r, from hpqr(or.inr hq))⟩) 
-(sorry)
+(assume hpqqp : (p → r) ∧ (q → r), show (p ∨ q) → r, from sorry)
