@@ -274,11 +274,15 @@ example :  (p ∧ q → r) → ((p → q) → r) :=
       (hpqr (show p ∧ q, from ⟨sorry, hpq sorry⟩))))
 
 -- Prove ((p ∨ q) → r) ↔ (p → r) ∧ (q → r)
-example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
-
 example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := 
 iff.intro
 (assume hpqr : (p ∨ q) → r, show (p → r) ∧ (q → r), from 
   ⟨(assume hp : p, show r, from hpqr(or.inl hp)), 
    (assume hq : q, show r, from hpqr(or.inr hq))⟩) 
-(assume hpqqp : (p → r) ∧ (q → r), show (p ∨ q) → r, from sorry)
+(assume hprqr : (p → r) ∧ (q → r), show (p ∨ q) → r, from
+  (assume hpq : p ∨ q, show r, from
+    or.elim hpq
+    (assume hp : p, show r, from hprqr.left hp)
+    (assume hq : q, show r, from hprqr.right hq)
+  )
+)
