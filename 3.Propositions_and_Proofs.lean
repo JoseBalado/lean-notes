@@ -286,3 +286,10 @@ iff.intro
     (assume hq : q, show r, from hprqr.right hq)
   )
 )
+
+-- Prove ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
+example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := 
+iff.intro
+(assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from 
+  (sorry))
+(sorry)
