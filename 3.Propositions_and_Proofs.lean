@@ -292,8 +292,13 @@ example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
 ⟨λ h, ⟨λ hp, h (or.inl hp), λ hq, h (or.inr hq)⟩, 
   λ hn h, or.elim h hn.1 hn.2⟩
 
-example (p q : Prop) : ¬(p ∨ q) → ¬p ∧ ¬q :=
+example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
+iff.intro
 (assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from
   and.intro
   (assume hp : p, show false, from hnpq (or.inl hp))
   (assume hq : q, show false, from hnpq (or.inr hq))) 
+(assume (hnpnq : ¬p ∧ ¬q),
+ show ¬(p ∨ q), from
+  assume hnpq : p ∨ q, show false, from
+   or.elim hnpq hnpnq.1 hnpnq.2)
