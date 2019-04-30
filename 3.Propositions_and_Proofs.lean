@@ -288,8 +288,12 @@ iff.intro
 )
 
 -- Prove ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
-example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := 
-iff.intro
-(assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from 
-  (sorry))
-(sorry)
+example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
+⟨λ h, ⟨λ hp, h (or.inl hp), λ hq, h (or.inr hq)⟩, 
+  λ hn h, or.elim h hn.1 hn.2⟩
+
+example (p q : Prop) : ¬(p ∨ q) → ¬p ∧ ¬q :=
+(assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from
+  and.intro
+  (assume hp : p, show false, from hnpq (or.inl hp))
+  (assume hq : q, show false, from hnpq (or.inr hq))) 
