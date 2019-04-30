@@ -292,6 +292,7 @@ example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
 ⟨λ h, ⟨λ hp, h (or.inl hp), λ hq, h (or.inr hq)⟩, 
   λ hn h, or.elim h hn.1 hn.2⟩
 
+-- Another proof for ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
 example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
 iff.intro
 (assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from
