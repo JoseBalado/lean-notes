@@ -303,3 +303,14 @@ iff.intro
  show ¬(p ∨ q), from
   assume hnpq : p ∨ q, show false, from
    or.elim hnpq hnpnq.1 hnpnq.2)
+
+
+-- Prove p ∧ q → (p → q) :=
+example : p ∧ q → (p → q) :=
+assume hpq : p ∧ q,
+assume hp : p, show q, from hpq.2
+
+example :  (p ∧ q → r) → ((p → q) → r) :=
+  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
+    (assume hp : p,
+     assume ))
