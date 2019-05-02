@@ -310,6 +310,12 @@ example : p ∧ q → (p → q) :=
 assume hpq : p ∧ q,
 assume hp : p, show q, from and.right hpq
 
+-- Prove p → q → (p ∧ q) :=
+example : p → q → (p ∧ q) :=
+assume hp : p,
+assume hq : q, show  p ∧ q, from and.intro hp hq
+
+
 example :  (p ∧ q → r) → ((p → q) → r) :=
   (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
     (assume hp : p,
