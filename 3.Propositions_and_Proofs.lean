@@ -303,3 +303,5 @@ iff.intro
   assume hnpq : p ∨ q, show false, from
    or.elim hnpq (and.left hnpnq) (and.right hnpnq))
 
+-- Prove ¬p ∨ ¬q → ¬(p ∧ q) := sorry
+example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
