@@ -171,6 +171,16 @@ or.elim (classical.em p)
           h ⟨hp, hq⟩))
 (assume hnp : ¬p, show ¬p ∨ ¬q, from or.inl hnp)
 
+-- Prove p ∧ q → (p → q) :=
+example : p ∧ q → (p → q) :=
+assume hpq : p ∧ q,
+assume hp : p, show q, from and.elim_right hpq
+
+-- Prove p → q → (p ∧ q) :=
+example : p → q → (p ∧ q) :=
+assume hp : p,
+assume hq : q, show  p ∧ q, from and.intro hp hq
+
 
 -- 3.6. Examples of Propositional Validities
 
@@ -262,17 +272,6 @@ iff.intro
   (assume hp : p, show q → r, from
     (assume hq, show r, from (hpqr ⟨hp, hq⟩))))
 
- -- Prove (p ∧ q → r) → ((p → q) → r) TODO
-example :  (p ∧ q → r) → ((p → q) → r) :=
-  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
-    (assume hpq : p → q, show r, from
-      (hpqr (show p ∧ q, from ⟨sorry, hpq sorry⟩))))
-
-example :  (p ∧ q → r) → ((p → q) → r) :=
-  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
-    (assume hpq : p → q, show r, from
-      (hpqr (show p ∧ q, from ⟨sorry, hpq sorry⟩))))
-
 -- Prove ((p ∨ q) → r) ↔ (p → r) ∧ (q → r)
 example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := 
 iff.intro
@@ -304,19 +303,3 @@ iff.intro
   assume hnpq : p ∨ q, show false, from
    or.elim hnpq (and.left hnpnq) (and.right hnpnq))
 
-
--- Prove p ∧ q → (p → q) :=
-example : p ∧ q → (p → q) :=
-assume hpq : p ∧ q,
-assume hp : p, show q, from and.right hpq
-
--- Prove p → q → (p ∧ q) :=
-example : p → q → (p ∧ q) :=
-assume hp : p,
-assume hq : q, show  p ∧ q, from and.intro hp hq
-
-
-example :  (p ∧ q → r) → ((p → q) → r) :=
-  (assume hpqr : (p ∧ q → r), show ((p → q) → r), from
-    (assume hp : p,
-     assume ))
