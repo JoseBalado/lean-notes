@@ -8,4 +8,4 @@ example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
 λ ⟨A, B⟩, ⟨B, A⟩ 
 
 example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
-λ p : (A ∧ B), ⟨p.right, p.left⟩ 
+λ p : A ∧ B, ⟨and.right p, and.left p⟩ 
