@@ -19,6 +19,6 @@ example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
   λ  qr, (and.left qr) (or.inl (and.right qr))
 
--- Prove (((A ∨ B) → C) ∧ A) → C
+-- Prove (((A ∨ B) → C) ∧ A) → C, second example, closer to Thompson book
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
-  λ  qr, (and.left qr) (or.inl (and.right qr))
+  λ  ⟨q, r⟩, q (or.inl r)
