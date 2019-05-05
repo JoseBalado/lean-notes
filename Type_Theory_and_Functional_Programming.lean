@@ -13,7 +13,7 @@ example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
 λ p : A ∧ B, ⟨and.right p, and.left p⟩
 
 example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
-λ p, ⟨and.right p, and.left p⟩
+λ p, and.intro (and.right p) (and.left p)
 
 -- Prove (((A ∨ B) → C) ∧ A) → C
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
@@ -22,3 +22,18 @@ example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
 -- Prove (((A ∨ B) → C) ∧ A) → C, second example, closer to Thompson book
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
   λ  ⟨q, r⟩, q (or.inl r)
+
+
+-- Page 90
+-- 4.1. Show that conjunction is associative by deriving a proof of the formula
+-- (A ∧ B) ∧ C → A ∧ (B ∧ C)
+example (A B C : Prop) : (A ∧ B) ∧ C → A ∧ (B ∧ C) :=
+λ p, ⟨and.left (and.left p), ⟨and.right (and.left p), and.right p⟩⟩
+
+example (A B C : Prop) : (A ∧ B) ∧ C → A ∧ (B ∧ C) :=
+λ p, ⟨and.left (and.left p), and.right (and.left p), and.right p⟩
+
+example (A B C : Prop) : (A ∧ B) ∧ C → A ∧ (B ∧ C) :=
+λ p, and.intro (and.left (and.left p)) (and.intro (and.right (and.left p)) (and.right p))
+
+-- 4.2. Show that the formula (¬A ∨ B) ⇒ (A ⇒ B) is valid by exhibiting a proof object for it.
