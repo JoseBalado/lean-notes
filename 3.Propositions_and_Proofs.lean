@@ -313,3 +313,15 @@ example : ¬p ∨ ¬q → ¬(p ∧ q) :=
     (assume hnq : ¬q, show false, from hnq (and.right hpq))
   )
 )
+
+-- Prove ¬(p ∧ ¬p) := sorry
+example : ¬(p ∧ ¬p) :=
+assume h,
+show false, from h.right h.left
+
+example : ¬(p ∧ ¬p) :=
+assume h,
+absurd h.left h.right
+
+-- Prove p ∧ ¬q → ¬(p → q)
+
