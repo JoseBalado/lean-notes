@@ -68,6 +68,7 @@ or.elim h
 
 -- Modus tollens, deriving a contradiction from p to obtain false.
 -- Everything follows from false, in this case ¬p
+-- order of propositions matters when using absurd
 example (hpq : p → q) (hnq : ¬q) : ¬p :=
 assume hp : p, show false, from  hnq (hpq hp)
 
@@ -80,6 +81,7 @@ assume hp : p, show false, from  (hnq (hpq hp))
 
 -- More examples of false and absurd use
 example (hp : p) (hnp : ¬p) : q := false.elim (hnp hp)
+-- order of propositions matters when using absurd
 example (hp : p) (hnp : ¬p) : q := absurd hp hnp
 
 -- Prove ¬p → q → (q → p) → r, premise ¬p must be added
@@ -316,7 +318,7 @@ example : ¬p ∨ ¬q → ¬(p ∧ q) :=
 
 -- Prove ¬(p ∧ ¬p) := sorry
 example : ¬(p ∧ ¬p) :=
-assume h,
+assume h : p ∧ ¬p,
 show false, from h.right h.left
 
 example : ¬(p ∧ ¬p) :=
@@ -324,4 +326,14 @@ assume h,
 absurd h.left h.right
 
 -- Prove p ∧ ¬q → ¬(p → q)
+example : p ∧ ¬q → ¬(p → q) :=
+assume hpnq : p ∧ ¬ q,
+assume hpq : p → q,
+absurd (hpq hpnq.left) hpnq.right
 
+example : p ∧ ¬q → ¬(p → q) :=
+assume hpnq : p ∧ ¬ q,
+assume hpq : p → q,
+show false, from hpnq.right (hpq hpnq.left)
+
+-- Prove ¬p → (p → q) := sorry
