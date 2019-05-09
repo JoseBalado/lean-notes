@@ -91,7 +91,6 @@ false.elim (hnp (hqp hq))
 example (hnp : ¬p) (hq : q) (hqp : q → p): r := 
 absurd (hqp hq) hnp
 
-
 -- Other variant from the above
 -- Prove ¬p → q → (q → p) → r, premise ¬p must be added
 example (hnp : ¬ p) (hnpq : ¬p → q) (hqp : q → p): r := 
@@ -131,6 +130,7 @@ example (h : p ∧ q) : q ∧ p :=
 have hp : p, from and.left h,
 suffices hq : q, from and.intro hq hp,
 show q, from and.right h
+
 
 -- Classical logic
 -- Prove double negation
@@ -347,7 +347,6 @@ assume hp,
 assume hnp,
 show q , from false.elim (hp hnp) 
 
-
 -- Prove (¬p ∨ q) → (p → q)
 example : (¬p ∨ q) → (p → q) := 
 (assume hnpq : ¬p ∨ q,
@@ -361,6 +360,4 @@ or.elim hnpq
 
 -- Prove p ∨ false ↔ p
 example : p ∨ false ↔ p := sorry
-
-
  
