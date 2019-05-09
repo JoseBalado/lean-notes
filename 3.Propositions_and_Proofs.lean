@@ -337,3 +337,12 @@ assume hpq : p → q,
 show false, from hpnq.right (hpq hpnq.left)
 
 -- Prove ¬p → (p → q) := sorry
+example : ¬p → (p → q) :=
+assume hnp,
+assume hp,
+absurd hp hnp
+
+example : ¬p → (p → q) :=
+assume hp,
+assume hnp,
+show q , from false.elim (hp hnp) 
