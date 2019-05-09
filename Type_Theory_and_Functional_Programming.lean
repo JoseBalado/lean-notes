@@ -39,8 +39,8 @@ example (A B C : Prop) : (A ∧ B) ∧ C → A ∧ (B ∧ C) :=
 -- 4.2. Show that the formula (¬A ∨ B) → (A → B) is valid by exhibiting a proof object for it.
 example (A B : Prop) : (¬A ∨ B) → (A → B) :=
 λ p, or.elim p
-(sorry)
-(sorry)
+(λ na, λ a, absurd a na)
+(λ b, λ a, b)
 
 example (A B : Prop) : (¬A ∨ B) → (A → B) :=
 (assume hnab : ¬A ∨ B,
@@ -48,16 +48,6 @@ or.elim hnab
 (assume hna : ¬A, 
  assume ha : A,
  show B, from absurd ha hna)
-(assume hb : B, 
- assume ha : A, 
- show B, from hb))
-
-example (A B : Prop) : (¬A ∨ B) → (A → B) :=
-(assume hnab : ¬A ∨ B,
-or.elim hnab
-(assume hna : ¬A, 
- assume ha : A,
- show B, from false.elim (hna ha))
 (assume hb : B, 
  assume ha : A, 
  show B, from hb))
