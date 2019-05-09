@@ -51,3 +51,15 @@ or.elim hnab
 (assume hb : B, 
  assume ha : A, 
  show B, from hb))
+
+example (A B : Prop) : (¬A ∨ B) → (A → B) :=
+(assume hnab : ¬A ∨ B,
+or.elim hnab
+(assume hna : ¬A, 
+ assume ha : A,
+ show B, from false.elim (hna ha))
+(assume hb : B, 
+ assume ha : A, 
+ show B, from hb))
+
+-- Do you expect the converse, (A → B) → (¬A ∨ B), to be provable?
