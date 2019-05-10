@@ -374,5 +374,12 @@ or.elim hnpq
  show q, from hq))
 
 -- Prove p ∨ false ↔ p
-example : p ∨ false ↔ p := sorry
+example : p ∨ false ↔ p :=
+iff.intro
+(assume hpf,
+or.elim hpf 
+  (assume hp, show p, from hp)
+  (assume false, show p, from false.elim))
+(assume hp, 
+ show p ∨ false, from or.inl hp)
  
