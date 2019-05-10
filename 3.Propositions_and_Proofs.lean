@@ -347,6 +347,11 @@ assume hp,
 assume hnp,
 show q , from absurd hnp hp
 
+example : ¬p → (p → q) :=
+assume hp,
+assume hnp,
+show q , from false.elim(hp hnp)
+
 -- Prove (¬p ∨ q) → (p → q)
 example : (¬p ∨ q) → (p → q) := 
 (assume hnpq : ¬p ∨ q,
@@ -354,6 +359,16 @@ or.elim hnpq
 (assume hnp : ¬p, 
  assume hp : p,
  show q, from absurd hp hnp)
+(assume hq : q, 
+ assume hp : p,
+ show q, from hq))
+
+example : (¬p ∨ q) → (p → q) := 
+(assume hnpq : ¬p ∨ q,
+or.elim hnpq
+(assume hnp : ¬p, 
+ assume hp : p,
+ show q, from false.elim (hnp hp))
 (assume hq : q, 
  assume hp : p,
  show q, from hq))
