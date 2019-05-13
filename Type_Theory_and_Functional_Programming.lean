@@ -71,8 +71,9 @@ example (A : Prop) : (A ∨ ¬A) → (¬¬A → A) :=
 assume hana : (A ∨ ¬A),
 or.elim hana
 (assume ha : A,
-assume hna : ¬A, show ¬¬A → A, from sorry)
-(sorry)
+assume hna : ¬¬A, show A, from ha)
+(assume hna : ¬A,
+ assume hnna : ¬¬A, show A, from false.elim (hnna hna))
 
 -- 4.3 B) Show that you can find a proof
 -- object for the converse, (A → ¬¬A) without this assumption.
