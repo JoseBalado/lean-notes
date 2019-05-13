@@ -382,4 +382,14 @@ or.elim hpf
   (assume false, show p, from false.elim))
 (assume hp, 
  show p ∨ false, from or.inl hp)
- 
+
+ -- Prove p ∧ false ↔ false
+example : p ∧ false ↔ false :=
+iff.intro
+(assume hpf,
+show false, from hpf.right)
+(assume hf,
+show p ∧ false, from and.intro (show p, from hf.elim) hf)
+
+-- Prove ¬(p ↔ ¬p)
+example : ¬(p ↔ ¬p) := sorry
