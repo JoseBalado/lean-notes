@@ -68,6 +68,11 @@ or.elim hnab
 -- 4.3. A) Show that from the assumption x : (A ∨ ¬A) that you can derive a
 -- proof object for the formula (¬¬A → A). 
 example (A : Prop) : (A ∨ ¬A) → (¬¬A → A) :=
+λ hana, or.elim hana
+(λ ha, λ hna, ha)
+(λ hna, λ hnna, absurd hna hnna)
+
+example (A : Prop) : (A ∨ ¬A) → (¬¬A → A) :=
 assume hana : (A ∨ ¬A),
 or.elim hana
 (assume ha : A,
