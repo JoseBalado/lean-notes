@@ -62,6 +62,7 @@ or.elim hnab
  assume ha : A, 
  show B, from hb)
 
+
 -- 4.2 B) Do you expect the converse, (A → B) → (¬A ∨ B), to be provable?
 
 
@@ -82,3 +83,10 @@ assume hna : ¬¬A, show A, from ha)
 
 -- 4.3 B) Show that you can find a proof
 -- object for the converse, (A → ¬¬A) without this assumption.
+example (A : Prop): (A → ¬¬A) :=
+assume ha : A,
+assume hna : ¬A, show false, from hna ha
+
+example (A : Prop): (A → ¬¬A) :=
+assume ha : A,
+assume hna : ¬A, absurd ha hna
