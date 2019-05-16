@@ -90,3 +90,9 @@ assume hna : ¬A, show false, from hna ha
 example (A : Prop): (A → ¬¬A) :=
 assume ha : A,
 assume hna : ¬A, absurd ha hna
+
+-- 4.4. Show that from the assumptions x : ((A ∧ B) → C) and y : A you
+-- can derive a proof of B → C.
+example (A B C : Prop) : ((A ∧ B) → C) ∧ A → (B → C) :=
+assume habc,
+assume hb, show  C, from habc.left (and.intro habc.right hb)
