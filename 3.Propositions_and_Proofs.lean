@@ -393,47 +393,10 @@ show p ∧ false, from and.intro (show p, from hf.elim) hf)
 
 -- Prove ¬(p ↔ ¬p)
 example : ¬(p ↔ ¬p) :=
-assume hpnp : p ↔ ¬p,
-show false, from sorry
-
-example : ¬(p → ¬p) := (assume hpnp: (p → ¬p),
- assume hp : p, show ¬(p → ¬p), from absurd hp (hpnp hp))
-
-example (A : Prop): (A → ¬¬A) :=
-assume ha : A,
-assume hna : ¬A, show false, from hna ha
-
-example : ¬(p → ¬p) :=
-(assume hp: p,
- assume hnp : ¬p, absurd hp hnp)
-
-example : ¬(p → ¬p) :=
-(assume hpnp: (p → ¬p),
- assume hp : p, show false, from (hpnp hp) hp)
-
-example : ¬(p → ¬p) :=
-(assume hp : p,
- assume hpnp : p → ¬p, absurd (hpnp hp) hp)
-
-example : ¬(p → ¬p) :=
-(λ hpnp , λ hp, absurd  hp (hpnp hp))
-
-example : ¬(p → ¬p) := sorry
-
-example (A : Prop): (A → ¬¬A) :=
-assume ha : A,
-assume hna : ¬A, absurd ha hna
-
-example (p q : Prop) : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
-iff.intro
-(assume hnpq : ¬(p ∨ q), show ¬p ∧ ¬q, from
-  and.intro
-  (assume hp : p, show false, from hnpq (or.inl hp))
-  (assume hq : q, show false, from hnpq (or.inr hq)))
-(assume (hnpnq : ¬p ∧ ¬q),
- show ¬(p ∨ q), from
-  assume hnpq : p ∨ q, show false, from
-   or.elim hnpq (and.left hnpnq) (and.right hnpnq))
+assume hpnp,
+have hnp : ¬ p, from
+  assume hp : p, show false, from (hpnp.elim_left hp) hp,
+show false, from hnp (hpnp.elim_right hnp)
 
 -- Prove (p → q) → (¬q → ¬p)
 example : (p → q) → (¬q → ¬p) :=
