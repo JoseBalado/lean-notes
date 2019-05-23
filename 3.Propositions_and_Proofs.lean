@@ -408,3 +408,7 @@ example : (p → q) → (¬q → ¬p) :=
 assume hpq,
 assume hnq,
 assume hp, absurd (hpq hp) hnq
+
+-- these require classical reasoning
+-- Prove (p → r ∨ s) → ((p → r) ∨ (p → s))
+example : (p → r ∨ s) → ((p → r) ∨ (p → s)) := sorry
