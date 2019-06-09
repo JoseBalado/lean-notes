@@ -105,3 +105,6 @@ assume hb, show  C, from habc.left (and.intro habc.right hb)
 example (A B C : Prop) : (A → (B → C)) → ((A ∧ B) → C) :=
 assume habc,
 assume hab, show C, from  (habc (and.left hab)) (and.right hab)
+
+example (A B C : Prop) : (A → (B → C)) → ((A ∧ B) → C) :=
+λ abc, λ ab, show C, from (abc ab.left) ab.right
