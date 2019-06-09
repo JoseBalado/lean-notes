@@ -99,3 +99,9 @@ example (A B C : Prop) : ((A ∧ B) → C) ∧ A → (B → C) :=
 example (A B C : Prop) : ((A ∧ B) → C) ∧ A → (B → C) :=
 assume habc,
 assume hb, show  C, from habc.left (and.intro habc.right hb)
+
+-- 4.5. Given a function of type A → (B → C) how would you define a
+-- function of type (A ∧ B) → C from it? How would you do the reverse?
+example (A B C : Prop) : (A → (B → C)) → ((A ∧ B) → C) :=
+assume habc,
+assume hab, show C, from  (habc (and.left hab)) (and.right hab)
