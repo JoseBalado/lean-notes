@@ -115,3 +115,6 @@ example (A B C : Prop) : ((A ∧ B) → C) → (A → (B → C)) :=
 assume habc,
 assume ha,
 assume hb, show C, from habc (and.intro ha hb)
+
+example (A B C : Prop) : ((A ∧ B) → C) → (A → (B → C)) :=
+λ habc, λ ha, λ hb, habc (and.intro ha hb)
