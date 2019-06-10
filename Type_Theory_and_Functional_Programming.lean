@@ -118,3 +118,7 @@ assume hb, show C, from habc (and.intro ha hb)
 
 example (A B C : Prop) : ((A ∧ B) → C) → (A → (B → C)) :=
 λ habc, λ ha, λ hb, habc (and.intro ha hb)
+
+-- 4.6. Show that from objects x : A and y : (B ∨ C) you can derive an object
+-- of type (A ∧ B) ∨ (A ∧ C).
+example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) := sorry
