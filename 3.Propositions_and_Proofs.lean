@@ -410,5 +410,33 @@ assume hnq,
 assume hp, absurd (hpq hp) hnq
 
 -- these require classical reasoning
+open classical
 -- Prove (p → r ∨ s) → ((p → r) ∨ (p → s))
-example : (p → r ∨ s) → ((p → r) ∨ (p → s)) := sorry
+example : (p → r ∨ s) → ((p → r) ∨ (p → s)) :=
+(assume hprs, show (p → r) ∨ (p → s), from sorry)
+
+example : (p → r ∨ s) → ((p → r) ∨ (p → s)) :=
+(assume hprs, assume hp, show (p → r) ∨ (p → s), from sorry)
+
+example (h : ¬¬p) : p :=
+by_cases
+  (assume h1 : p, h1)
+  (assume h1 : ¬p, absurd h1 h)
+
+example (h : ¬¬p) : p :=
+by_contradiction
+  (assume h1 : ¬p,
+    show false, from h h1)
+
+example (h : ¬(p ∧ q)) : ¬p ∨ ¬q :=
+or.elim (em p)
+  (assume hp : p,
+    or.inr
+      (show ¬q, from
+        assume hq : q,
+        h ⟨hp, hq⟩))
+  (assume hp : ¬p,
+    or.inl hp)
+
+-- Prove ¬(p ∧ q) → ¬p ∨ ¬q
+example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
