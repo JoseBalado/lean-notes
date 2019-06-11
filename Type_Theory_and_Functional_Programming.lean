@@ -121,4 +121,9 @@ example (A B C : Prop) : ((A ∧ B) → C) → (A → (B → C)) :=
 
 -- 4.6. Show that from objects x : A and y : (B ∨ C) you can derive an object
 -- of type (A ∧ B) ∨ (A ∧ C).
-example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) := sorry
+example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
+assume habc,
+show (A ∧ B) ∨ (A ∧ C), from
+(or.elim (and.right habc)
+(assume hb, or.inl (and.intro (and.left habc) hb))
+(assume hc, or.inr (and.intro (and.left habc) hc)))
