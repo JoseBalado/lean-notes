@@ -439,4 +439,8 @@ or.elim (em p)
     or.inl hp)
 
 -- Prove ¬(p ∧ q) → ¬p ∨ ¬q
-example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
+example : ¬(p ∧ q) → ¬p ∨ ¬q :=
+assume hnpq,
+or.elim (em p)
+(assume hp, show ¬p ∨ ¬q, from or.inr (assume hq, hnpq (and.intro hp hq)))
+(assume hnp, show ¬p ∨ ¬q, from or.inl hnp)
