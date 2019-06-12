@@ -45,22 +45,22 @@ example (A B : Prop) : (¬A ∨ B) → (A → B) :=
 example (A B : Prop) : (¬A ∨ B) → (A → B) :=
 assume hnab : ¬A ∨ B,
 or.elim hnab
-(assume hna : ¬A, 
- assume ha : A,
- show B, from absurd ha hna)
-(assume hb : B, 
- assume ha : A, 
- show B, from hb)
+  (assume hna : ¬A,
+  assume ha : A,
+  show B, from absurd ha hna)
+  (assume hb : B,
+  assume ha : A,
+  show B, from hb)
 
 example (A B : Prop) : (¬A ∨ B) → (A → B) :=
 assume hnab : ¬A ∨ B,
 or.elim hnab
-(assume hna : ¬A, 
- assume ha : A,
- show B, from false.elim (hna ha))
-(assume hb : B, 
- assume ha : A, 
- show B, from hb)
+  (assume hna : ¬A,
+  assume ha : A,
+  show B, from false.elim (hna ha))
+  (assume hb : B,
+  assume ha : A,
+  show B, from hb)
 
 
 -- 4.2 B) Do you expect the converse, (A → B) → (¬A ∨ B), to be provable?
@@ -70,16 +70,16 @@ or.elim hnab
 -- proof object for the formula (¬¬A → A). 
 example (A : Prop) : (A ∨ ¬A) → (¬¬A → A) :=
 λ hana, or.elim hana
-(λ ha, λ hna, ha)
-(λ hna, λ hnna, absurd hna hnna)
+  (λ ha, λ hna, ha)
+  (λ hna, λ hnna, absurd hna hnna)
 
 example (A : Prop) : (A ∨ ¬A) → (¬¬A → A) :=
 assume hana : (A ∨ ¬A),
 or.elim hana
-(assume ha : A,
-assume hna : ¬¬A, show A, from ha)
-(assume hna : ¬A,
- assume hnna : ¬¬A, show A, from false.elim (hnna hna))
+  (assume ha : A,
+  assume hna : ¬¬A, show A, from ha)
+  (assume hna : ¬A,
+  assume hnna : ¬¬A, show A, from false.elim (hnna hna))
 
 -- 4.3 B) Show that you can find a proof
 -- object for the converse, (A → ¬¬A) without this assumption.
@@ -125,11 +125,11 @@ example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
 assume habc,
 show (A ∧ B) ∨ (A ∧ C), from
 (or.elim (and.right habc)
-(assume hb, or.inl (and.intro (and.left habc) hb))
-(assume hc, or.inr (and.intro (and.left habc) hc)))
+  (assume hb, or.inl (and.intro (and.left habc) hb))
+  (assume hc, or.inr (and.intro (and.left habc) hc)))
 
 example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
 λ habc,
   (or.elim (and.right habc)
-  (λ  hb, or.inl (and.intro (and.left habc) hb))
-  (λ  hc, or.inr (and.intro (and.left habc) hc)))
+    (λ  hb, or.inl (and.intro (and.left habc) hb))
+    (λ  hc, or.inr (and.intro (and.left habc) hc)))
