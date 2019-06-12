@@ -127,3 +127,9 @@ show (A ∧ B) ∨ (A ∧ C), from
 (or.elim (and.right habc)
 (assume hb, or.inl (and.intro (and.left habc) hb))
 (assume hc, or.inr (and.intro (and.left habc) hc)))
+
+example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
+λ habc,
+  (or.elim (and.right habc)
+  (λ  hb, or.inl (and.intro (and.left habc) hb))
+  (λ  hc, or.inr (and.intro (and.left habc) hc)))
