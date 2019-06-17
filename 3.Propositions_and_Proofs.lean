@@ -343,9 +343,9 @@ assume hp,
 absurd hp hnp
 
 example : ¬p → (p → q) :=
-assume hp,
 assume hnp,
-show q , from absurd hnp hp
+assume hp,
+show q , from absurd hp hnp
 
 example : ¬p → (p → q) :=
 assume hp,
@@ -444,3 +444,5 @@ assume hnpq,
 or.elim (em p)
 (assume hp, show ¬p ∨ ¬q, from or.inr (assume hq, hnpq (and.intro hp hq)))
 (assume hnp, show ¬p ∨ ¬q, from or.inl hnp)
+
+-- Prove ¬(p → q) → p ∧ ¬q
