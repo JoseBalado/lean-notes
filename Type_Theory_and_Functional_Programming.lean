@@ -133,3 +133,15 @@ example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
   (or.elim (and.right habc)
     (λ  hb, or.inl (and.intro (and.left habc) hb))
     (λ  hc, or.inr (and.intro (and.left habc) hc)))
+
+-- 4.7. Show how to define a function of type
+-- (A ∧ B) → (C ∧ D)
+-- from functions f : A → C and g : B → D.
+example (A B C D : Prop): (A ∧ B) → (C ∧ D) :=
+λ x: (A ∧ B), and.intro (sorry) (sorry)
+
+example (A B C D : Prop): (A ∧ B) → (C ∧ D) :=
+λ x: (A ∧ B), λ f : (A → C), λ g: (B → D), and.intro (f x.left)(g x.right)
+-- 4.8. Show that the following formulas are valid, by giving a proof object
+-- for each of them.
+-- A → ¬¬A
