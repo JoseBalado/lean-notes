@@ -17,11 +17,11 @@ example (A B : Prop) : (A ∧ B) → (B ∧ A) :=
 
 -- Prove (((A ∨ B) → C) ∧ A) → C
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
-  λ  qr, (and.left qr) (or.inl (and.right qr))
+  λ qr, (and.left qr) (or.inl (and.right qr))
 
 -- Prove (((A ∨ B) → C) ∧ A) → C, second example, closer to Thompson book
 example (A B C : Prop) : (((A ∨ B) → C) ∧ A) → C :=
-  λ  ⟨q, r⟩, q (or.inl r)
+  λ ⟨q, r⟩, q (or.inl r)
 
 
 -- Page 90
@@ -146,3 +146,6 @@ example (A B C D : Prop): (A ∧ B) → (A → C) → (B → D) → (C ∧ D) :=
 -- 4.8. Show that the following formulas are valid, by giving a proof object
 -- for each of them.
 -- A → ¬¬A
+example (A : Prop): A → ¬¬A :=
+assume ha,
+show ¬¬A, from (assume hna, show false, from false.elim (hna ha))
