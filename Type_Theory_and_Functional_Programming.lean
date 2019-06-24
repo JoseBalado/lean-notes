@@ -140,8 +140,9 @@ example (A B C : Prop) : (A ∧ (B ∨ C)) → ((A ∧ B) ∨ (A ∧ C)) :=
 example (A B C D : Prop): (A ∧ B) → (C ∧ D) :=
 λ x: (A ∧ B), and.intro (sorry) (sorry)
 
-example (A B C D : Prop): (A ∧ B) → (C ∧ D) :=
+example (A B C D : Prop): (A ∧ B) → (A → C) → (B → D) → (C ∧ D) :=
 λ x: (A ∧ B), λ f : (A → C), λ g: (B → D), and.intro (f x.left)(g x.right)
+
 -- 4.8. Show that the following formulas are valid, by giving a proof object
 -- for each of them.
 -- A → ¬¬A
