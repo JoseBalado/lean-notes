@@ -149,3 +149,6 @@ example (A B C D : Prop): (A ∧ B) → (A → C) → (B → D) → (C ∧ D) :=
 example (A : Prop): A → ¬¬A :=
 assume ha,
 show ¬¬A, from (assume hna, show false, from false.elim (hna ha))
+
+example (A : Prop): A → ¬¬A :=
+λ ha, λ hna, false.elim (hna ha)
