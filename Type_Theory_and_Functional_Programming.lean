@@ -160,3 +160,10 @@ assume hnbnc : ¬B ∧ ¬C,
 or.elim hbc
 (assume hb : B, show false, from false.elim ((and.left hnbnc) hb))
 (assume hc : C, show false, from false.elim ((and.right hnbnc) hc))
+
+example (B C : Prop): (B ∨ C) → ¬(¬B ∧ ¬C) :=
+λ hbc : B ∨ C,
+λ hnbnc : ¬B ∧ ¬C,
+or.elim hbc
+(λ hb : B, false.elim ((and.left hnbnc) hb))
+(λ hc : C, false.elim ((and.right hnbnc) hc))
