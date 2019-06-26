@@ -145,10 +145,18 @@ example (A B C D : Prop): (A ∧ B) → (A → C) → (B → D) → (C ∧ D) :=
 
 -- 4.8. Show that the following formulas are valid, by giving a proof object
 -- for each of them.
--- A → ¬¬A
+-- A) A → ¬¬A
 example (A : Prop): A → ¬¬A :=
 assume ha,
 show ¬¬A, from (assume hna, show false, from false.elim (hna ha))
 
 example (A : Prop): A → ¬¬A :=
 λ ha, λ hna, false.elim (hna ha)
+
+-- B) (B ∨ C) → ¬(¬B ∧ ¬C)
+example (B C : Prop): (B ∨ C) → ¬(¬B ∧ ¬C) :=
+assume hbc : B ∨ C,
+assume hnbnc : ¬B ∧ ¬C,
+or.elim hbc
+(assume hb : B, show false, from false.elim ((and.left hnbnc) hb))
+(assume hc : C, show false, from false.elim ((and.right hnbnc) hc))
