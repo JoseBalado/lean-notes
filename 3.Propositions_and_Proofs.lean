@@ -447,19 +447,20 @@ or.elim (em p)
 
 -- Prove: ¬(p ∧ ¬q) → (p → q)
 example : ¬(p ∧ ¬q) → (p → q) :=
-assume hnpnq, show p → q, from (assume hp: p, show q, from
+assume hnpnq :  ¬(p ∧ ¬q), show p → q, from (assume hp: p, show q, from
   by_contradiction (assume hnq: ¬q, show false,
     from false.elim(hnpnq (and.intro hp hnq))))
 
 -- Prove ¬(p → q) → p ∧ ¬q
 example : ¬(p → q) → p ∧ ¬q := 
-assume hnpq : ¬(p → q), show p ∧ ¬q, 
-from by_contradiction 
-  (assume h: ¬(p ∧ ¬q), show false, 
-  from sorry)
-
-example : ¬(p → q) → p ∧ ¬q := 
-assume hnpq : ¬(p → q), show p ∧ ¬q, 
-from by_contradiction 
-  (assume h: ¬(p ∧ ¬q), show p ∧ ¬q, 
-  from by_contradiction (assume h: p, show ¬q, from sorry ))
+assume hnpq : ¬(p → q),
+show p ∧ ¬q, from by_contradiction (
+  assume hnpnq : ¬(p ∧ ¬q), show false, from
+  false.elim(
+    hnpq
+    (assume hp: p, show q, from
+      by_contradiction (assume hnq: ¬q, show false,
+        from false.elim(hnpnq (and.intro hp hnq)))
+    )
+  )
+)
