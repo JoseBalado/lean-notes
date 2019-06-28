@@ -464,3 +464,11 @@ show p ∧ ¬q, from by_contradiction (
     )
   )
 )
+
+-- Prove (p → q) → (¬p ∨ q)
+example : (p → q) → (¬p ∨ q) :=
+assume hpq : p → q,
+show ¬p ∨ q, from
+or.elim (classical.em p)
+  (assume hp, show ¬p ∨ q, from or.inr(hpq hp))
+  (assume hnp, show ¬p ∨ q, from or.inl hnp)
