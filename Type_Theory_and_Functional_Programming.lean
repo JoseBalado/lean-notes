@@ -167,3 +167,14 @@ example (B C : Prop): (B ∨ C) → ¬(¬B ∧ ¬C) :=
 or.elim hbc
 (λ hb : B, false.elim ((and.left hnbnc) hb))
 (λ hc : C, false.elim ((and.right hnbnc) hc))
+
+-- C) (A → B) → ((A → C) → (A → (B ∧ C)))
+example (A B C : Prop): (A → B) → ((A → C) → (A → (B ∧ C))) :=
+assume hab : A → B,
+assume hac : A → C,
+assume ha : A, show B ∧ C, from and.intro (hab ha) (hac ha)
+
+example (A B C : Prop): (A → B) → ((A → C) → (A → (B ∧ C))) :=
+λ hab : A → B,
+λ hac : A → C,
+λ ha : A, and.intro (hab ha) (hac ha)
