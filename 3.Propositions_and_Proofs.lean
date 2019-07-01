@@ -472,3 +472,12 @@ show ¬p ∨ q, from
 or.elim (classical.em p)
   (assume hp, show ¬p ∨ q, from or.inr(hpq hp))
   (assume hnp, show ¬p ∨ q, from or.inl hnp)
+
+-- Prove (¬q → ¬p) → (p → q)
+example : (¬q → ¬p) → (p → q) :=
+assume hnpnq : ¬q → ¬p,
+show p → q, from (
+  assume hp: p, show q, from by_contradiction (
+    assume hnq: ¬q, show false, from false.elim((hnpnq hnq) hp)
+  )
+)
