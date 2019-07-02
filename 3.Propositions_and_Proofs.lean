@@ -469,7 +469,7 @@ show p ∧ ¬q, from by_contradiction (
 example : (p → q) → (¬p ∨ q) :=
 assume hpq : p → q,
 show ¬p ∨ q, from
-or.elim (classical.em p)
+or.elim (em p)
   (assume hp, show ¬p ∨ q, from or.inr(hpq hp))
   (assume hnp, show ¬p ∨ q, from or.inl hnp)
 
@@ -480,4 +480,14 @@ show p → q, from (
   assume hp: p, show q, from by_contradiction (
     assume hnq: ¬q, show false, from false.elim((hnpnq hnq) hp)
   )
+)
+
+-- Prove p ∨ ¬p
+example : p ∨ ¬p :=
+by_contradiction(assume hnpnp: ¬(p ∨ ¬p), show false, from
+  or.elim (em p)
+  (assume hp : p, show false, from
+    by_contradiction(false.elim(hnpnp (or.inl hp))))
+  (assume hnp : ¬p, show false, from
+    by_contradiction(false.elim(hnpnp (or.inr hnp))))
 )
