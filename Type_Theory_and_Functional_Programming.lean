@@ -178,3 +178,17 @@ example (A B C : Prop): (A → B) → ((A → C) → (A → (B ∧ C))) :=
 λ hab : A → B,
 λ hac : A → C,
 λ ha : A, and.intro (hab ha) (hac ha)
+
+-- 4.9. Show that the following formulas are equivalent
+-- (A ∧ B) → C    A → (B → C)
+example (A B C : Prop): (A ∧ B) → C ↔ A → (B → C) :=
+iff.intro
+(assume habc, show A → B → C, from
+  assume ha,
+  assume hb,
+  show C, from habc(and.intro ha hb))
+(assume habc, show A ∧ B → C, from
+  assume hab,
+  have ha : A, from and.left hab,
+  have hb : B, from and.right hab,
+  show C, from (habc ha) hb)
