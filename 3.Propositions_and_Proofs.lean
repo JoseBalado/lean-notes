@@ -449,20 +449,18 @@ or.elim (em p)
 example : ¬(p ∧ ¬q) → (p → q) :=
 assume hnpnq :  ¬(p ∧ ¬q), show p → q, from (assume hp: p, show q, from
   by_contradiction (assume hnq: ¬q, show false,
-    from false.elim(hnpnq (and.intro hp hnq))))
+    from hnpnq (and.intro hp hnq)))
 
 -- Prove ¬(p → q) → p ∧ ¬q
 example : ¬(p → q) → p ∧ ¬q := 
 assume hnpq : ¬(p → q),
 show p ∧ ¬q, from by_contradiction (
   assume hnpnq : ¬(p ∧ ¬q), show false, from
-  false.elim(
     hnpq
     (assume hp: p, show q, from
       by_contradiction (assume hnq: ¬q, show false,
-        from false.elim(hnpnq (and.intro hp hnq)))
+        from hnpnq (and.intro hp hnq))
     )
-  )
 )
 
 -- Prove (p → q) → (¬p ∨ q)
@@ -478,7 +476,7 @@ example : (¬q → ¬p) → (p → q) :=
 assume hnpnq : ¬q → ¬p,
 show p → q, from (
   assume hp: p, show q, from by_contradiction (
-    assume hnq: ¬q, show false, from false.elim((hnpnq hnq) hp)
+    assume hnq: ¬q, show false, from (hnpnq hnq) hp
   )
 )
 
@@ -491,3 +489,42 @@ by_contradiction(assume hnpnp: ¬(p ∨ ¬p), show false, from
   (assume hnp : ¬p, show false, from
     by_contradiction(false.elim(hnpnp (or.inr hnp))))
 )
+
+-- Prove (((p → q) → p) → p)
+example : (((p → q) → p) → p) :=
+assume hpqp, show p, from by_contradiction
+ (assume hnp, show false, from by_contradiction
+  (assume hp, show false, from sorry)
+  )
+
+example : (((p → q) → p) → p) :=
+assume hpqp : (p → q) → p, show p, from
+  by_contradiction(
+    false.elim(
+      by_contradiction(
+        assume hnp : ¬p, show false, from
+        false.elim(
+          hnp
+          (hpqp (assume hp : p,
+            show q, from by_contradiction(false.elim(hnp hp))))
+        )
+      )
+      sorry
+    )
+  )
+
+  example : (((p → q) → p) → p) :=
+assume hpqp : (p → q) → p, show p, from
+  by_contradiction(
+    false.elim(
+      by_contradiction(
+        assume hnp : ¬p, show false, from
+        false.elim(
+          hnp
+          (hpqp (assume hp : p,
+            show q, from by_contradiction(false.elim(hnp hp))))
+        )
+      )
+      sorry
+    )
+  )
