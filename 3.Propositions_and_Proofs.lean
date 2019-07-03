@@ -485,9 +485,9 @@ example : p ∨ ¬p :=
 by_contradiction(assume hnpnp: ¬(p ∨ ¬p), show false, from
   or.elim (em p)
   (assume hp : p, show false, from
-    by_contradiction(false.elim(hnpnp (or.inl hp))))
+    false.elim(hnpnp (or.inl hp)))
   (assume hnp : ¬p, show false, from
-    by_contradiction(false.elim(hnpnp (or.inr hnp))))
+    false.elim(hnpnp (or.inr hnp)))
 )
 
 -- Prove (((p → q) → p) → p)
@@ -506,7 +506,7 @@ assume hpqp : (p → q) → p, show p, from
         false.elim(
           hnp
           (hpqp (assume hp : p,
-            show q, from by_contradiction(false.elim(hnp hp))))
+            show q, from false.elim(hnp hp))))
         )
       )
       sorry
