@@ -492,39 +492,12 @@ by_contradiction(assume hnpnp: ¬(p ∨ ¬p), show false, from
 
 -- Prove (((p → q) → p) → p)
 example : (((p → q) → p) → p) :=
-assume hpqp, show p, from by_contradiction
- (assume hnp, show false, from by_contradiction
-  (assume hp, show false, from sorry)
-  )
-
-example : (((p → q) → p) → p) :=
 assume hpqp : (p → q) → p, show p, from
   by_contradiction(
-    false.elim(
-      by_contradiction(
-        assume hnp : ¬p, show false, from
-        false.elim(
-          hnp
-          (hpqp (assume hp : p,
-            show q, from false.elim(hnp hp))))
-        )
+      assume hnp : ¬p, show false, from
+      false.elim(
+        hnp
+        (hpqp (assume hp : p,
+          show q, from false.elim(hnp hp)))
       )
-      sorry
-    )
-  )
-
-  example : (((p → q) → p) → p) :=
-assume hpqp : (p → q) → p, show p, from
-  by_contradiction(
-    false.elim(
-      by_contradiction(
-        assume hnp : ¬p, show false, from
-        false.elim(
-          hnp
-          (hpqp (assume hp : p,
-            show q, from by_contradiction(false.elim(hnp hp))))
-        )
-      )
-      sorry
-    )
   )
