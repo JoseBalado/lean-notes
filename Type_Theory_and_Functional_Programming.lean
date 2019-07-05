@@ -209,3 +209,8 @@ assume hacbc, show (A ∧ B) → C, from
   or.elim hacbc
   (assume hac, show C, from hac (and.left hab))
   (assume hbc, show C, from hbc (and.right hab))
+
+example (A B C : Prop): ((A → C) ∨ (B → C)) → ((A ∧ B) → C) :=
+λ hacbc, λ hab, or.elim hacbc
+  (λ hac, hac (and.left hab))
+  (λ hbc, hbc (and.right hab))
