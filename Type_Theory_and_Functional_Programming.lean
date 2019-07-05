@@ -184,17 +184,28 @@ example (A B C : Prop): (A → B) → ((A → C) → (A → (B ∧ C))) :=
 example (A B C : Prop): (A ∧ B) → C ↔ A → (B → C) :=
 iff.intro
 (assume habc, show A → B → C, from
-assume ha,
-assume hb,
+  assume ha,
+  assume hb,
 show C, from habc (and.intro ha hb))
 (assume habc, show A ∧ B → C, from
-assume hab,
-have ha : A, from and.left hab,
-have hb : B, from and.right hab,
-show C, from (habc ha) hb)
+  assume hab,
+  have ha : A, from and.left hab,
+  have hb : B, from and.right hab,
+  show C, from (habc ha) hb)
 
 example (A B C : Prop): (A ∧ B) → C ↔ A → (B → C) :=
 ⟨ λ habc, λ ha, λ hb, habc (and.intro ha hb)
   ,
   λ habc, λ hab, habc (and.left hab) (and.right hab)
 ⟩
+
+-- 4.10. Show that the de Morgan formula
+-- (¬A ∨ ¬B) → ¬(A ∧ B)
+-- is valid by giving an object of type
+-- ((A → C) ∨ (B → C)) → ((A ∧ B) → C)
+example (A B C : Prop): ((A → C) ∨ (B → C)) → ((A ∧ B) → C) :=
+assume hacbc, show (A ∧ B) → C, from
+  assume hab, show C, from
+  or.elim hacbc
+  (assume hac, show C, from hac (and.left hab))
+  (assume hbc, show C, from hbc (and.right hab))
