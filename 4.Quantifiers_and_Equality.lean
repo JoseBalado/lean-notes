@@ -1,4 +1,5 @@
 -- Prove (∀ x : α, p x ∧ q x) → ∀ y : α, p y
+namespace one
 variables (α : Type) (p q : α → Prop) -- This defines α and 'p' and 'q' for the whole file
 
 example : (∀ x : α, p x ∧ q x) → ∀ y : α, p y  :=
@@ -18,8 +19,11 @@ example : (∀ x : α, p x ∧ q x) → ∀ x : α, p x  :=
 assume h : ∀ x : α, p x ∧ q x,
 assume z : α,
 show p z, from and.left (h z)
+end one
 
 -- Express the fact that a relation, r, is transitive:
+namespace two
+variable (α : Type)
 variables (r : α → α → Prop)
 variable  trans_r : ∀ x y z, r x y → r y z → r x z
 
@@ -30,3 +34,17 @@ variables (hab : r a b) (hbc : r b c)
 #check trans_r a b c
 #check trans_r a b c hab
 #check trans_r a b c hab hbc
+end two
+
+namespace three
+universe u
+variables (α : Type u) (r : α → α → Prop)
+variable  trans_r : ∀ {x y z}, r x y → r y z → r x z
+
+variables (a b c : α)
+variables (hab : r a b) (hbc : r b c)
+
+#check trans_r
+#check trans_r hab
+#check trans_r hab hbc
+end three
