@@ -22,10 +22,14 @@ end two
 namespace three
 variable U : Type
 variable P : U → Prop
-variable y : Prop
+variable a : Prop
 
-example (h1 : ∃ x, P x) :   P U    :=
-exists.elim h1
-  (assume (y : U),
-    show P y, from (h1 y))
+
+variables (α : Type) (p q : α → Prop)
+
+example (h : ∃ x, p x) : ∃ x, p x  :=
+exists.elim h
+  (assume w,
+    assume hw : p w ,
+    show ∃ x, p x, from ⟨w, hw⟩)
 end three
