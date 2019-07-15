@@ -62,3 +62,15 @@ trans_r (trans_r hab (symm_r hcb)) hcd
 end four
 
 -- 4.2. Equality
+
+-- 4.4. The Existential Quantifier
+example : ∃ x : ℕ, x > 0 :=
+have h : 1 > 0, from nat.zero_lt_succ 0,
+exists.intro 1 h
+
+example : ∃ x : ℕ, x > 0 :=
+have h : 4 > 0, from nat.zero_lt_succ 3,
+exists.intro 4 h
+
+example (x : ℕ) (h : x > 0) : ∃ y, y < x :=
+exists.intro 0 h
