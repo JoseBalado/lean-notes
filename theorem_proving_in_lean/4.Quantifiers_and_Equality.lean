@@ -1,3 +1,4 @@
+-- 4.1. The Universal Quantifier
 -- Prove (∀ x : α, p x ∧ q x) → ∀ y : α, p y
 namespace one
 variables (α : Type) (p q : α → Prop) -- This defines α and 'p' and 'q' for the whole file
