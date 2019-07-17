@@ -2,8 +2,8 @@ namespace one
 variable U : Type
 variable P : U → Prop
 
-example (y : U) (h : P y) : ∃ x, P x :=
-exists.intro y h
+example (x : U) (h : P x) : ∃ x, P x :=
+exists.intro x h
 end one
 
 namespace two
@@ -23,7 +23,6 @@ namespace three
 variable U : Type
 variable P : U → Prop
 variable a : Prop
-
 
 variables (α : Type) (p q : α → Prop)
 
