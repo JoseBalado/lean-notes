@@ -82,6 +82,48 @@ exists.intro y (and.intro hxy hyz)
 
 #check @exists.intro
 
+-- We can use the anonymous constructor notation ⟨t, h⟩ for exists.intro t h, when the
+-- type is clear from the context.
+example : ∃ x : ℕ, x > 0 :=
+⟨1, nat.zero_lt_succ 0⟩
+
+example (x : ℕ) (h : x > 0) : ∃ y, y < x :=
+⟨0, h⟩
+
+example (x y z : ℕ) (hxy : x < y) (hyz : y < z) :
+  ∃ w, x < w ∧ w < z :=
+⟨y, hxy, hyz⟩
+
+
+-- Note that exists.intro has implicit arguments: Lean has to infer the predicate p : α → Prop
+-- in the conclusion ∃ x, p x.
+-- For example, if we have have hg : g 0 0 = 0 and write exists.intro 0 hg, there are many
+-- possible values for the predicate p, corresponding to the theorems
+-- ∃ x, g x x = x, ∃ x, g x x = 0, ∃ x, g x 0 = x, etc.
+-- Lean uses the context to infer which one is appropriate.
+variable g : ℕ → ℕ → ℕ
+variable hg : g 0 0 = 0
+
+theorem gex1 : ∃ x, g x x = x := ⟨0, hg⟩
+theorem gex2 : ∃ x, g x 0 = x := ⟨0, hg⟩
+theorem gex3 : ∃ x, g 0 0 = x := ⟨0, hg⟩
+theorem gex4 : ∃ x, g x x = 0 := ⟨0, hg⟩
+
+theorem gex5 : ∃ x, g 0 x = x := ⟨0, hg⟩
+theorem gex6 : ∃ x, g x 0 = 0 := ⟨0, hg⟩
+theorem gex7 : ∃ x, g 0 x = 0 := ⟨0, hg⟩
+
+set_option pp.implicit true  -- display implicit arguments
+#print gex1
+#print gex2
+#print gex3
+#print gex4
+
+
+-- The existential elimination rule, exists.elim, performs the opposite operation.
+-- It allows us to prove a proposition q from ∃ x : α, p x, by showing that q follows from p w for an arbitrary value w.
+-- Roughly speaking, since we know there is an x satisfying p x, we can give it a name, say, w.
+-- If q does not mention w, then showing that q follows from p w is tantamount to showing the q follows from the existence of any such x. Here is an example: 
 variables (α : Type) (p q : α → Prop)
 
 example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
