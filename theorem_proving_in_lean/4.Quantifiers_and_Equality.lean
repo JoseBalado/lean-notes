@@ -124,6 +124,7 @@ set_option pp.implicit true  -- display implicit arguments
 -- It allows us to prove a proposition q from ∃ x : α, p x, by showing that q follows from p w for an arbitrary value w.
 -- Roughly speaking, since we know there is an x satisfying p x, we can give it a name, say, w.
 -- If q does not mention w, then showing that q follows from p w is tantamount to showing the q follows from the existence of any such x. Here is an example: 
+namespace five
 variables (α : Type) (p q : α → Prop)
 
 example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
@@ -131,3 +132,36 @@ exists.elim h
   (assume w,
     assume hw : p w ∧ q w,
     show ∃ x, q x ∧ p x, from ⟨w, ⟨hw.right, hw.left⟩⟩)
+end five
+
+-- Lean provides a more convenient way to eliminate from an existential quantifier with the match statement:
+namespace six
+variables (α : Type) (p q : α → Prop)
+
+example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
+match h with ⟨w, hw⟩ :=
+  ⟨w, hw.right, hw.left⟩
+end
+
+-- We can annotate the types used in the match for greater clarity:
+example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
+match h with ⟨(w : α), (hw : p w ∧ q w)⟩ :=
+  ⟨w, hw.right, hw.left⟩
+end
+
+-- We can even use the match statement to decompose the conjunction at the same time:
+example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
+match h with ⟨w, hpw, hqw⟩ :=
+  ⟨w, hqw, hpw⟩
+end
+
+-- Lean also provides a pattern-matching let expression:
+example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
+let ⟨w, hpw, hqw⟩ := h in ⟨w, hqw, hpw⟩
+
+-- This is essentially just alternative notation for the match construct above. Lean will even allow
+-- us to use an implicit match in the assume statement:
+example : (∃ x, p x ∧ q x) → ∃ x, q x ∧ p x :=
+assume ⟨w, hpw, hqw⟩, ⟨w, hqw, hpw⟩
+
+end six
