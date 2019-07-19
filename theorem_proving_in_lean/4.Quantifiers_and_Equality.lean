@@ -62,7 +62,9 @@ example (a b c d : α) (hab : r a b) (hcb : r c b) (hcd : r c d) :
 trans_r (trans_r hab (symm_r hcb)) hcd
 end four
 
+
 -- 4.2. Equality
+
 
 -- 4.4. The Existential Quantifier
 example : ∃ x : ℕ, x > 0 :=
@@ -165,3 +167,18 @@ example : (∃ x, p x ∧ q x) → ∃ x, q x ∧ p x :=
 assume ⟨w, hpw, hqw⟩, ⟨w, hqw, hpw⟩
 
 end six
+
+-- Prove ¬ ∀ x, ¬ p x → ∃ x, p x
+namespace ApEp
+variables (α : Type) (p : α → Prop)
+
+example (h : ¬ ∀ x, ¬ p x) : ∃ x, p x :=
+classical.by_contradiction
+  (assume h1 : ¬ ∃ x, p x,
+    have h2 : ∀ x, ¬ p x, from
+      assume x,
+      assume h3 : p x,
+      have h4 : ∃ x, p x, from  ⟨x, h3⟩,
+      show false, from h1 h4,
+    show false, from h h2)
+end ApEp
