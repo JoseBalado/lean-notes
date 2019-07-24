@@ -64,7 +64,18 @@ end four
 
 
 -- 4.2. Equality
+namespace equality
+universe u
+variables (α : Type u) (a b c d : α)
+variables (hab : a = b) (hcb : c = b) (hcd : c = d)
 
+example : a = d :=
+eq.trans (eq.trans hab (eq.symm hcb)) hcd
+
+-- We can also use the projection notation:
+example : a = d := (hab.trans hcb.symm).trans hcd
+
+end equality
 
 -- 4.4. The Existential Quantifier
 example : ∃ x : ℕ, x > 0 :=
@@ -193,3 +204,32 @@ classical.by_contradiction
       show false, from h1 h4,
     show false, from h h2)
 end ApEp
+
+-- Existential quantifier. Exercises:
+namespace exercises
+open classical
+
+variables (α : Type) (p q : α → Prop)
+variable a : α
+variable r : Prop
+
+example : (∃ x : α, r) → r := sorry
+
+
+example : (∃ x : α, r) → r :=
+assume h : (∃ x : α, r),
+show r, from sorry
+
+example : (∃ x : α, r) → r :=
+assume h : (∃ x : α, r),
+exists.elim h
+(assume a, show r, from ⟨h, a⟩)
+
+
+example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
+exists.elim h
+  (assume w,
+    assume hw : p w ∧ q w,
+    show ∃ x, q x ∧ p x, from ⟨w, hw.right, hw.left⟩)
+
+end exercises
