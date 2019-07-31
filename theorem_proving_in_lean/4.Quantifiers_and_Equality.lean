@@ -320,4 +320,5 @@ iff.intro
     (assume x : α, show q x, from (h x).right))
 (assume h : (∀ x, p x) ∧ (∀ x, q x),
   show (∀ x, p x ∧ q x), from
-  (assume x : α, and.intro (h.left x) (h.right x)))
+  (assume x : α,
+   show p x ∧ q x, from and.intro (h.left x) (h.right x)))
