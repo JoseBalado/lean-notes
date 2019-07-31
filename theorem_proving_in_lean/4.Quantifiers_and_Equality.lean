@@ -13,6 +13,14 @@ assume h : ∀ x : α, p x ∧ q x,
 assume y : α,
 show p y, from and.left (h y)
 
+-- My example, using varible x in both the hypothesis and in the conclusion,
+-- plus explicity set the quantifier in the 'show' section.
+example : (∀ x : α, p x ∧ q x) → ∀ y : α, p y  :=
+assume h : ∀ x : α, p x ∧ q x,
+show ∀ y, p y, from
+  (assume y: α, show p y, from (h y).left)
+
+
 -- Remember that expressions which differ up to renaming of bound variables are considered to
 -- be equivalent. So, for example, we could have used the same variable, x, in both the hypothesis
 -- and conclusion, and instantiated it by a different variable, z, in the proof:
@@ -64,7 +72,7 @@ end four
 
 
 -- 4.2. Equality
-namespace equality
+namespace equality_1
 universe u
 variables (α : Type u) (a b c d : α)
 variables (hab : a = b) (hcb : c = b) (hcd : c = d)
@@ -75,7 +83,51 @@ eq.trans (eq.trans hab (eq.symm hcb)) hcd
 -- We can also use the projection notation:
 example : a = d := (hab.trans hcb.symm).trans hcd
 
-end equality
+end equality_1
+
+namespace equality_2
+universe u
+variables (α β : Type u)
+
+example (f : α → β) (a : α) : (λ x, f x) a = f a := eq.refl _
+example (a : α) (b : α) : (a, b).1 = a := eq.refl _
+example : 2 + 3 = 5 := eq.refl _
+
+-- This feature of the framework is so important that the library defines a notation rfl
+example (f : α → β) (a : α) : (λ x, f x) a = f a := rfl
+example (a : α) (b : α) : (a, b).1 = a := rfl
+example : 2 + 3 = 5 := rfl
+
+end equality_2
+
+namespace equality_3
+-- Equality is much more than an equivalence relation, however. It has the important property that
+-- every assertion respects the equivalence, in the sense that we can substitute equal expressions
+-- without changing the truth value. That is, given h1 : a = b and h2 : p a, we can construct
+-- a proof for p b using substitution: eq.subst h1 h2.
+universe u
+
+example (α : Type u) (a b : α) (p : α → Prop)
+  (h1 : a = b) (h2 : p a) : p b :=
+eq.subst h1 h2
+
+example (α : Type u) (a b : α) (p : α → Prop)
+  (h1 : a = b) (h2 : p a) : p b :=
+h1 ▸ h2
+
+end equality_3
+
+namespace equality_4
+variable α : Type
+variables a b : α
+variables f g : α → ℕ
+variable h₁ : a = b
+variable h₂ : f = g
+
+example : f a = f b := congr_arg f h₁
+example : f a = g a := congr_fun h₂ a
+example : f a = g b := congr h₂ h₁
+end equality_4
 
 -- 4.4. The Existential Quantifier
 example : ∃ x : ℕ, x > 0 :=
@@ -233,3 +285,39 @@ exists.elim h
     show ∃ x, q x ∧ p x, from ⟨w, hw.right, hw.left⟩)
 
 end exercises
+
+variable f : ℕ → ℕ
+variable h : ∀ x : ℕ, f x ≤ f (x + 1)
+
+example : f 0 ≥ f 1 → f 0 = f 1 :=
+assume : f 0 ≥ f 1,
+show f 0 = f 1, from le_antisymm (h 0) this
+
+
+-- 4.6. Exercises
+-- Prove these equivalences:
+variables (α : Type) (p q : α → Prop)
+
+example : (∀ x, p x ∧ q x) → (∀ x, p x) ∧ (∀ x, q x)  :=
+assume h : (∀ x, p x ∧ q x),
+show (∀ x, p x) ∧ (∀ x, q x), from
+and.intro
+  (assume x : α, show p x, from (h x).left)
+  (assume x : α, show q x, from (h x).right)
+
+example :  (∀ x, p x) ∧ (∀ x, q x) → (∀ x, p x ∧ q x) :=
+assume h : (∀ x, p x) ∧ (∀ x, q x),
+assume x : α,
+show p x ∧ q x, from
+and.intro (h.left x) (h.right x)
+
+example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
+iff.intro
+(assume h : (∀ x, p x ∧ q x),
+  show (∀ x, p x) ∧ (∀ x, q x), from
+    and.intro
+    (assume x : α, show p x, from (h x).left)
+    (assume x : α, show q x, from (h x).right))
+(assume h : (∀ x, p x) ∧ (∀ x, q x),
+  show (∀ x, p x ∧ q x), from
+  (assume x : α, and.intro (h.left x) (h.right x)))
