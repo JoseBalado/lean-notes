@@ -214,3 +214,27 @@ example (A B C : Prop): ((A → C) ∨ (B → C)) → ((A ∧ B) → C) :=
 λ hacbc, λ hab, or.elim hacbc
   (λ hac, hac (and.left hab))
   (λ hbc, hbc (and.right hab))
+
+
+-- 4.12. Give a derivation of a proof object of the formula
+-- (∃x : X).¬P → ¬(∀x : X).P
+variables (α : Type) (p q : α → Prop)
+
+example (h : ∃ x, ¬p x) : ¬∀ x, p x :=
+  (assume h1 : ∀ x, p x,
+    have h2 : ∀ x, ¬ p x, from
+      assume x,
+      assume h3 : p x,
+      have h4 : ∃ x, p x, from  ⟨x, h3⟩,
+      show false, from h1 h4,
+    show false, from h h2)
+
+example (h : ∃ x, ¬p x) : ¬∀ x, p x :=
+  (assume h1 : ∀ x, p x,
+      assume y : α,
+      have  h2 : p y, from  h1 y,
+      show false, from sorry)
+
+example (h : ∃ x, ¬p x) : ¬p α :=
+      assume y : α,
+      show false, from (sorry)
