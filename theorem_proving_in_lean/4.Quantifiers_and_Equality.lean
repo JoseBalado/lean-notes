@@ -13,7 +13,7 @@ assume h : ∀ x : α, p x ∧ q x,
 assume y : α,
 show p y, from and.left (h y)
 
--- My example, using varible x in both the hypothesis and in the conclusion,
+-- My example, using variable x in both the hypothesis and in the conclusion,
 -- plus explicity set the quantifier in the 'show' section.
 example : (∀ x : α, p x ∧ q x) → ∀ y : α, p y  :=
 assume h : ∀ x : α, p x ∧ q x,
