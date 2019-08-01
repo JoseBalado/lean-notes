@@ -305,11 +305,13 @@ and.intro
   (assume x : α, show p x, from (h x).left)
   (assume x : α, show q x, from (h x).right)
 
+
 example :  (∀ x, p x) ∧ (∀ x, q x) → (∀ x, p x ∧ q x) :=
 assume h : (∀ x, p x) ∧ (∀ x, q x),
 assume x : α,
 show p x ∧ q x, from
 and.intro (h.left x) (h.right x)
+
 
 example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
 iff.intro
@@ -322,3 +324,10 @@ iff.intro
   show (∀ x, p x ∧ q x), from
   (assume x : α,
    show p x ∧ q x, from and.intro (h.left x) (h.right x)))
+
+
+example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
+assume h : (∀ x, p x → q x),
+assume i : (∀ x, p x),
+show (∀ x, q x), from
+(assume x : α, show q x, from (h x)(i x))
