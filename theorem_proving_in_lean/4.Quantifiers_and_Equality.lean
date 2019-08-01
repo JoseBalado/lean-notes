@@ -331,3 +331,13 @@ assume h : (∀ x, p x → q x),
 assume i : (∀ x, p x),
 show (∀ x, q x), from
 (assume x : α, show q x, from (h x)(i x))
+
+
+example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
+assume h : (∀ x, p x → q x),
+assume i : (∀ x, p x),
+show (∀ x, q x), from
+(assume a : α, show q a, from (h a)(i a))
+
+
+example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
