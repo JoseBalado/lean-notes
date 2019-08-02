@@ -265,24 +265,12 @@ variables (α : Type) (p q : α → Prop)
 variable a : α
 variable r : Prop
 
-example : (∃ x : α, r) → r := sorry
-
-
-example : (∃ x : α, r) → r :=
-assume h : (∃ x : α, r),
-show r, from sorry
 
 example : (∃ x : α, r) → r :=
 assume h : (∃ x : α, r),
 exists.elim h
-(assume a, show r, from ⟨h, a⟩)
-
-
-example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
-exists.elim h
-  (assume w,
-    assume hw : p w ∧ q w,
-    show ∃ x, q x ∧ p x, from ⟨w, hw.right, hw.left⟩)
+(assume (a : α) (hr : r),
+show r, from hr)
 
 end exercises
 
