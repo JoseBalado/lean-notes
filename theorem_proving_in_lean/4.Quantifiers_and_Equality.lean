@@ -340,4 +340,10 @@ show (∀ x, q x), from
 (assume a : α, show q a, from (h a)(i a))
 
 
-example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
+example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
+assume h : (∀ x, p x) ∨ (∀ x, q x),
+show ∀ x, p x ∨ q x, from
+assume a : α, show p a ∨ q a, from
+or.elim h
+(assume h1 : (∀ x, p x), show p a ∨ q a, from or.inl (h1 a))
+(assume h1 : (∀ x, q x), show p a ∨ q a, from or.inr (h1 a))
