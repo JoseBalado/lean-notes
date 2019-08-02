@@ -286,6 +286,8 @@ exists.elim h
 
 end exercises
 
+
+-- 4.5. More on the Proof Language
 variable f : ℕ → ℕ
 variable h : ∀ x : ℕ, f x ≤ f (x + 1)
 
