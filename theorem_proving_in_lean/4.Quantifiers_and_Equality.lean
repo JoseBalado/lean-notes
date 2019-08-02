@@ -270,7 +270,12 @@ example : (∃ x : α, r) → r :=
 assume h : (∃ x : α, r),
 exists.elim h
 (assume (a : α) (hr : r),
-show r, from hr)
+ show r, from hr)
+
+
+ example : r → (∃ x : α, r) :=
+ assume h : r,
+ exists.intro a h
 
 end exercises
 
