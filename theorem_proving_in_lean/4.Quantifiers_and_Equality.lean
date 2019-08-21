@@ -252,7 +252,7 @@ classical.by_contradiction
     have h2 : ∀ x, ¬ p x, from
       assume x,
       assume h3 : p x,
-      have h4 : ∃ x, p x, from Exists.intro x h3,
+      have h4 : ∃ x, p x, from exists.intro x h3,
       show false, from h1 h4,
     show false, from h h2)
 end ApEp
@@ -276,6 +276,15 @@ exists.elim h
  example : r → (∃ x : α, r) :=
  assume h : r,
  exists.intro a h
+
+
+ example : (∃ x, p x ∧ r) → (∃ x, p x) ∧ r :=
+ assume h : (∃ x, p x ∧ r), show (∃ x, p x) ∧ r, from
+ and.intro
+ (exists.elim h (assume a (hr : p a ∧ r), show (∃ x, p x), from exists.intro a hr.left))
+ (exists.elim h (assume a (hr : p a ∧ r), show r, from and.right hr))
+
+ example : (∃ x, p x) ∧ r → (∃ x, p x ∧ r) := sorry
 
 end exercises
 
