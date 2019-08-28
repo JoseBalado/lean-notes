@@ -269,22 +269,28 @@ variable r : Prop
 example : (∃ x : α, r) → r :=
 assume h : (∃ x : α, r),
 exists.elim h
-(assume (a : α) (hr : r),
- show r, from hr)
+(assume (a : α) (hr : r), show r, from hr)
 
 
- example : r → (∃ x : α, r) :=
- assume h : r,
- exists.intro a h
+example : r → (∃ x : α, r) :=
+assume h : r,
+exists.intro a h
 
 
- example : (∃ x, p x ∧ r) → (∃ x, p x) ∧ r :=
+example : (∃ x, p x) ∧ r ↔ (∃ x, p x ∧ r) :=
+iff.intro
+(
+ assume h : ((∃ x, p x) ∧ r), show (∃ x, p x ∧ r), from
+ exists.elim (and.left h)
+  (assume a (hr : p a), show (∃ x, p x ∧ r),
+  from exists.intro a (and.intro hr (and.right h)))
+)
+(
  assume h : (∃ x, p x ∧ r), show (∃ x, p x) ∧ r, from
  and.intro
  (exists.elim h (assume a (hr : p a ∧ r), show (∃ x, p x), from exists.intro a hr.left))
  (exists.elim h (assume a (hr : p a ∧ r), show r, from and.right hr))
-
- example : (∃ x, p x) ∧ r → (∃ x, p x ∧ r) := sorry
+)
 
 end exercises
 
