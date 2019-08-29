@@ -294,14 +294,6 @@ iff.intro
 
 example : (∃ x, p x ∨ q x) → (∃ x, p x) ∨ (∃ x, q x) :=
 assume h : (∃ x, p x ∨ q x), show (∃ x, p x) ∨ (∃ x, q x), from
-exists.elim h (assume x (hr : p x ∨ q x), show (∃ x, p x) ∨ (∃ x, q x),
-from or.elim hr
-(sorry)
-(sorry)
-)
-
-example : (∃ x, p x ∨ q x) → (∃ x, p x) ∨ (∃ x, q x) :=
-assume h : (∃ x, p x ∨ q x), show (∃ x, p x) ∨ (∃ x, q x), from
 exists.elim h (assume a (hr : p a ∨ q a), show (∃ x, p x) ∨ (∃ x, q x),
 from or.elim hr
   (assume hpa : p a, show (∃ x, p x) ∨ (∃ x, q x), from or.inl (exists.intro a hpa))
