@@ -292,12 +292,25 @@ iff.intro
  (exists.elim h (assume a (hr : p a ∧ r), show r, from and.right hr))
 )
 
-example : (∃ x, p x ∨ q x) → (∃ x, p x) ∨ (∃ x, q x) :=
-assume h : (∃ x, p x ∨ q x), show (∃ x, p x) ∨ (∃ x, q x), from
-exists.elim h (assume a (hr : p a ∨ q a), show (∃ x, p x) ∨ (∃ x, q x),
-from or.elim hr
-  (assume hpa : p a, show (∃ x, p x) ∨ (∃ x, q x), from or.inl (exists.intro a hpa))
-  (assume hpq : q a, show (∃ x, p x) ∨ (∃ x, q x), from or.inr (exists.intro a hpq)))
+example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) :=
+iff.intro
+(assume h : (∃ x, p x ∨ q x), show (∃ x, p x) ∨ (∃ x, q x), from
+  exists.elim h (assume a (hr : p a ∨ q a), show (∃ x, p x) ∨ (∃ x, q x),
+  from or.elim hr
+    (assume hpa : p a, show (∃ x, p x) ∨ (∃ x, q x), from or.inl (exists.intro a hpa))
+    (assume hpq : q a, show (∃ x, p x) ∨ (∃ x, q x), from or.inr (exists.intro a hpq)))
+)
+(assume h : (∃ x, p x) ∨ (∃ x, q x), show (∃ x, p x ∨ q x), from
+  or.elim h
+  (assume hpq : (∃ x, p x), show (∃ x, p x ∨ q x), from
+    exists.elim hpq
+      (assume a (hpa : p a), show (∃ x, p x ∨ q x), from exists.intro a (or.inl hpa))
+  )
+  (assume hpq : (∃ x, q x), show (∃ x, p x ∨ q x), from
+    exists.elim hpq
+      (assume a (hpa : q a), show (∃ x, p x ∨ q x), from exists.intro a (or.inr hpa))
+  )
+)
 
 end exercises
 
